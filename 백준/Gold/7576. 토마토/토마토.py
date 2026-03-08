@@ -5,10 +5,6 @@ from collections import deque
 M, N = map(int, input().split())
 graph = [list(map(int, input().split())) for _ in range(N)]
 
-def is_valid(row,col):
-    check = 0<=col<len(graph[0]) and 0<=row<len(graph) and graph[row][col]==0
-    return check
-
 def BFS():
     dx=[-1,+1,0,0]
     dy=[0,0,+1,-1]
@@ -24,7 +20,7 @@ def BFS():
             nrow = cur_row + dx[i]
             ncol = cur_col + dy[i]
 
-            if is_valid(nrow,ncol): 
+            if 0<=ncol<len(graph[0]) and 0<=nrow<len(graph) and graph[nrow][ncol]==0: 
                 queue.append((nrow,ncol))
                 graph[nrow][ncol] = graph[cur_row][cur_col] + 1
 
