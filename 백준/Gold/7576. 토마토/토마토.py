@@ -16,23 +16,21 @@ def BFS():
 
     for i in range(N):
         for j in range(M):
-            if graph[i][j] == 1: queue.append((i,j,0))
+            if graph[i][j] == 1: queue.append((i,j))
 
-    day_max = 0
     while queue:
-        row, col, day = queue.popleft()
-        if day > day_max : day_max = day
+        cur_row, cur_col= queue.popleft()
         for i in range(4):
-            nrow = row + dx[i]
-            ncol = col + dy[i]
+            nrow = cur_row + dx[i]
+            ncol = cur_col + dy[i]
 
             if is_valid(nrow,ncol): 
-                queue.append((nrow,ncol,day+1))
-                graph[nrow][ncol] = 1
+                queue.append((nrow,ncol))
+                graph[nrow][ncol] = graph[cur_row][cur_col] + 1
 
     if 0 in [graph[i][j] for i in range(N) for j in range(M)]:
         return -1
                 
-    return day_max
+    return max(max(row) for row in graph) - 1
 
 print(BFS())
