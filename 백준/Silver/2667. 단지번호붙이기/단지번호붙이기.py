@@ -6,8 +6,11 @@ N = int(input())
 graph = [list(map(int, input().strip())) for _ in range(N)]
 visited = [[False]*N for _ in range(N)]
 
+def is_valid(row,col):
+    check = 0<=col<len(graph[0]) and 0<=row<len(graph) and graph[row][col]==1 and visited[row][col] == False
+    return check
+
 def BFS(row, col):
-    global visited
     dx = [-1, +1, 0, 0]
     dy = [0, 0, -1, +1]
     queue = deque()
@@ -20,11 +23,11 @@ def BFS(row, col):
             nrow = cur_row + dx[i]
             ncol = cur_col + dy[i]
 
-            if 0<=ncol<len(graph[0]) and 0<=nrow<len(graph) and graph[nrow][ncol]==1:
-                if visited[nrow][ncol] == False:
-                    visited[nrow][ncol] = True
-                    queue.append((nrow, ncol))
-                    num += 1
+            if is_valid(nrow, ncol):
+                visited[nrow][ncol] = True
+                queue.append((nrow, ncol))
+                num += 1
+    
     return num
 
 result = []
