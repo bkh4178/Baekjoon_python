@@ -11,12 +11,16 @@ for i in range(1, n+1):
 
 for _ in range(m):
     a, b, w = map(int, input().split())
-    graph[a][b] = min(w, graph[a][b]) # 노선이 하나가 아닐 수도 있기 때문
+    if w < graph[a][b]:
+        graph[a][b] = w
 
 for k in range(1,n+1):
     for i in range(1, n+1):
-        for j in range(1, n+1):
-            graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j])
+        if graph[i][k] != INF:
+            for j in range(1, n+1):
+                cost = graph[i][k]+graph[k][j]
+                if cost < graph[i][j]:
+                    graph[i][j] = cost
 
 for i in range(1, n+1):
     print(*(0 if graph[i][j]==INF else graph[i][j] for j in range(1, n+1)))
