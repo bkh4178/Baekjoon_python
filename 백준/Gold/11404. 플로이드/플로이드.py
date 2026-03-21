@@ -18,7 +18,5 @@ for k in range(1,n+1):
         for j in range(1, n+1):
             graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j])
 
-for row in graph[1:]:
-    for j in range(1, n+1):
-        if row[j] == INF: row[j] = 0
-    print(*row[1:])
+for i in range(1, n+1):
+    print(*(0 if graph[i][j]==INF else graph[i][j] for j in range(1, n+1)))
