@@ -1,32 +1,35 @@
-#%%
 import sys
+from collections import deque
 input = sys.stdin.readline
 INF = int(1e10)
 
 N, M = map(int, input().split())
-graph = [[INF]* (N+1) for _ in range(N+1)]
-
-for i in range(1, N+1):
-    graph[i][i] = 0
+graph = [[] for _ in range(N+1)]
 
 for _ in range(M):
     a, b = map(int, input().split())
-    graph[a][b] = graph[b][a] = 1
+    graph[a].append(b)
+    graph[b].append(a)
 
-for k in range(1, N+1):
-    for i in range(1, N+1):
-        if graph[i][k] != INF:
-            for j in range(1, N+1):
-                if graph[j][k] != INF:
-                    cost = graph[i][k] + graph[k][j]
-                    if graph[i][j] > cost:
-                        graph[i][j] = cost
+def BFS(i):
+    q = deque([i])
+    visited = [-1]*(N+1)
+    visited[i] = 0
+    
+    while q:
+        current = q.popleft()
+        for new in graph[current]:
+            if visited[new] == -1:
+                visited[new] = visited[current] + 1
+                q.append(new)
+    
+    return sum(visited[1:])
 
 min_num = INF
 ind = 0
-for i in range(1, N+1):
-    s = sum(graph[i][1:])
-    if s < min_num:
-        min_num, ind = s, i
-
+for i in range(1,N+1):
+    bacon = BFS(i)
+    if bacon < min_num:
+        min_num = bacon
+        ind = i
 print(ind)
