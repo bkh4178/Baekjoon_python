@@ -1,29 +1,29 @@
 import sys
 input = sys.stdin.readline
 
-INF = 10**15
+INF = int(1e10)
 
-def floyd(dist, V):
+def floyd(graph, V):
     for k in range(1, V + 1):
         for i in range(1, V + 1):
             for j in range(1, V + 1):
-                if dist[i][k] + dist[k][j] < dist[i][j]:
-                    dist[i][j] = dist[i][k] + dist[k][j]
+                if graph[i][k] + graph[k][j] < graph[i][j]:
+                    graph[i][j] = graph[i][k] + graph[k][j]
 
 def main():
     V, E = map(int, input().split())
 
-    dist = [[INF] * (V + 1) for _ in range(V + 1)]
+    graph = [[INF] * (V + 1) for _ in range(V + 1)]
 
     for _ in range(E):
         a, b, c = map(int, input().split())
-        dist[a][b] = c
+        graph[a][b] = c
 
-    floyd(dist, V)
+    floyd(graph, V)
 
     answer = INF
     for i in range(1, V + 1):
-        answer = min(answer, dist[i][i])
+        answer = min(answer, graph[i][i])
 
     print(-1 if answer == INF else answer)
 
